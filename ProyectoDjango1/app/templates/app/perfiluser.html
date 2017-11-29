@@ -1,0 +1,97 @@
+﻿{% extends "app/base.html" %}
+{% block titulo %}Mi Perfil {% endblock titulo %}
+{% block estilos %}
+{% load staticfiles %}
+<style>
+		.foot{
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			background: #34495e !important;
+
+		}
+
+		.cabecera{
+			background: #34495e !important;
+		}
+		.perfil{
+			border-radius: 50%;
+		}
+</style>
+{% endblock estilos %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+	<div class="row">
+		<div class="col-6">
+			<h1>Perfil usuario</h1>
+			<p>Usuario {{user.username}}</p>
+			
+			
+				
+			
+			{% if user.firts_name %}
+				<p>Nombre {{user.firts_name}}</p>				
+			{% endif %}
+			
+			{% if user.last_name %}
+				<p>Apellido {{user.last_name}}</p>
+			{% endif %}
+					
+			
+			{% if user.email %}
+				<p>Correo {{user.email}}</p>	
+			{% endif %}
+			{% for v in actualizar %}
+				<a href="{% url 'actualizarPerfil_view' pk=v.id %}">Actualizar mis datos</a>
+			{% endfor %}
+			
+			<p>reputacion {{rep}}</p>
+				
+			
+			
+			
+								
+		</div>
+		<div class="col-6">
+			
+			{% for a in ctx %}
+				{% if a.Avatar %}
+					
+					{% ifequal a.Avatar 'None' %}
+						<img class="perfil" src="{% static 'app/img/noavatar.png' %}" width="300px" height="300px" alt="Imagen aleatoria">
+					{% else %}
+						<img class="perfil" src="{{a.Avatar.url}}" width="300px" height="300px"/>
+					{% endifequal %}
+						
+		
+				{% else %}
+					<img class="perfil" src="{% static 'app/img/noavatar.png' %}" width="300px" height="300px" alt="Imagen aleatoria">
+			
+				{% endif %}
+
+			{% endfor %}
+				
+		</div>
+	</div>
+<h2 class="text-center mt-3 pb-3">Denuncias Realizadas</h2>
+	<div class="row mt-3 mb-5 pb-5 ">
+		<div class="col">
+			<div class="card-columns">
+				{% for a in denuncia  %}
+					<div class="card">
+						<div class="card-body">
+							<h3 class="card-title">{{a.titulo}}</h3>
+							<p class="card-text">{{a.descripcion}}</p>
+							<a href="{% url 'noticia_view' pk=a.id %}" class="btn btn-primary btn-block btn-lg">Ver</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+	
